@@ -124,39 +124,34 @@ def calculate_readability(
     raw_fkgl = (0.39 * asl) + (11.8 * asw) - 15.59
     fkgl = round(raw_fkgl, 2)
     
-    # 5. Readability Interpretations (strictly kept separate from formulas)
-    # Flesch Reading Ease standard benchmarks
+    # 5. Readability Interpretations
     if fre >= 80.0:
-        fre_interp = "Easy (Conversational, simple sentences, accessible to grade school readers)"
+        fre_interp = "Easy to read (Conversational style)"
         tier = "Easy"
     elif fre >= 60.0:
-        fre_interp = "Standard / Moderate (Plain English, understandable by 8th-9th graders)"
-        tier = "Moderate"
+        fre_interp = "Standard readability (Grade 8-9 level)"
+        tier = "Medium"
     elif fre >= 50.0:
-        fre_interp = "Fairly Difficult (High school level, moderately complex syntax)"
-        tier = "Moderate"
+        fre_interp = "Moderate difficulty (High school level)"
+        tier = "Medium"
     elif fre >= 30.0:
-        fre_interp = "Difficult (College level, sophisticated vocabulary or dense phrasing)"
+        fre_interp = "Difficult (College level)"
         tier = "Difficult"
     else:
-        fre_interp = "Extremely Difficult (College graduate, academic/technical treatise)"
+        fre_interp = "Very difficult (Advanced or technical)"
         tier = "Difficult"
         
     # FKGL Grade interpretation
     if fkgl <= 6.0:
-        fkgl_interp = f"Grade {max(1.0, fkgl)} (Elementary level)"
+        fkgl_interp = f"Grade {max(1.0, fkgl):.1f} (Elementary)"
     elif fkgl <= 9.0:
-        fkgl_interp = f"Grade {fkgl} (Middle school level)"
+        fkgl_interp = f"Grade {fkgl:.1f} (Middle School)"
     elif fkgl <= 12.0:
-        fkgl_interp = f"Grade {fkgl} (High school level)"
+        fkgl_interp = f"Grade {fkgl:.1f} (High School)"
     else:
-        fkgl_interp = f"Grade {fkgl} (College / Post-secondary professional)"
+        fkgl_interp = f"Grade {fkgl:.1f} (College / Professional)"
 
-    disclaimer = (
-        "Note: Readability formulas (Flesch Reading Ease and Flesch-Kincaid) are statistical "
-        "structural approximations based on word length and sentence length. They do not evaluate "
-        "semantic coherence, thematic depth, grammatical correctness, or contextual comprehension."
-    )
+    disclaimer = ""
 
     return {
         "total_words": total_words,

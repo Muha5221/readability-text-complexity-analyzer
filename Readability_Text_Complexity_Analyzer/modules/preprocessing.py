@@ -40,7 +40,7 @@ def validate_text(text: str) -> Tuple[bool, str]:
     if len(words) < 5:
         return False, (
             f"Input text is too short ({len(words)} word{'s' if len(words) != 1 else ''}). "
-            "Please provide at least 5 words for meaningful NLP and readability analysis."
+            "Please provide at least 5 words to analyze."
         )
     
     return True, ""
