@@ -13,7 +13,6 @@ The application evaluates:
 - **Readability Scores:** Flesch Reading Ease and Flesch-Kincaid Grade Level with practical reading interpretations.
 - **Vocabulary Analysis:** Lexical diversity (Type-Token Ratio), average word length, long word detection, and word frequency distribution.
 - **Part-of-Speech Analysis:** Distribution of nouns, verbs, adjectives, and adverbs with visual charts.
-- **WordNet Explorer:** Interactive lexical lookup for synonyms, definitions, and usage examples.
 - **Final Analysis:** Practical, rule-based observations on overall text complexity (Easy, Medium, or Difficult).
 
 ---

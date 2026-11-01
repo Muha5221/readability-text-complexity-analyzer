@@ -18,7 +18,6 @@ if str(CURRENT_DIR) not in sys.path:
 from modules.preprocessing import validate_text, preprocess_text
 from modules.lexical_analysis import analyze_lexical_complexity
 from modules.pos_analysis import analyze_pos_tags
-from modules.wordnet_analysis import get_word_details
 from modules.readability import calculate_readability
 from modules.complexity import classify_complexity, generate_final_analysis
 
@@ -113,18 +112,6 @@ st.markdown("""
         border-radius: 6px;
         font-weight: 600;
         display: inline-block;
-    }
-    
-    /* Synonyms chips */
-    .synonym-chip {
-        background-color: #334155;
-        color: #E2E8F0;
-        padding: 4px 10px;
-        border-radius: 4px;
-        font-size: 0.88rem;
-        display: inline-block;
-        margin-right: 6px;
-        margin-bottom: 6px;
     }
     
     /* Final Analysis Box */
@@ -376,50 +363,9 @@ if st.session_state.get("analysis_done", False) and text_to_analyze:
                 st.write([(w, tag) for w, tag in pos_data["tagged_tokens"] if any(c.isalpha() for c in w)])
 
         # ------------------------------------------
-        # SECTION 6: WordNet Explorer
+        # SECTION 6: Final Analysis
         # ------------------------------------------
-        st.markdown('<div class="section-title">Section 6: WordNet Explorer</div>', unsafe_allow_html=True)
-        st.write("Look up synonyms and definitions for words in the text or search for a custom word.")
-
-        candidate_words = sorted(list(set(prep_data["words"])))
-        col_w1, col_w2 = st.columns([1, 1])
-        with col_w1:
-            selected_word = st.selectbox(
-                "Select a word from the text:",
-                options=["-- Select from text --"] + candidate_words,
-                index=0
-            )
-        with col_w2:
-            custom_word = st.text_input("Or enter any English word:", placeholder="Type a word...")
-
-        target_word = custom_word.strip() if custom_word.strip() else (
-            selected_word if selected_word != "-- Select from text --" else ""
-        )
-
-        if target_word:
-            wn_result = get_word_details(target_word)
-            if not wn_result["found"]:
-                st.info(wn_result["message"])
-            else:
-                st.write(f"**Word:** `{wn_result['word']}` ({wn_result['synset_count']} synset(s))")
-
-                if wn_result["has_synonyms"]:
-                    st.write("**Synonyms:**")
-                    chips = "".join([f'<span class="synonym-chip">{s}</span>' for s in wn_result["synonyms"]])
-                    st.markdown(chips, unsafe_allow_html=True)
-                else:
-                    st.write("No direct synonyms available in WordNet for this word.")
-
-                st.write("**Definitions & Examples:**")
-                for s in wn_result["synsets"][:3]:
-                    st.markdown(f"- **{s['pos']}** (`{s['name']}`): {s['definition']}")
-                    if s["examples"]:
-                        st.caption(f'Example: "{s["examples"][0]}"')
-
-        # ------------------------------------------
-        # SECTION 7: Final Analysis
-        # ------------------------------------------
-        st.markdown('<div class="section-title">Section 7: Final Analysis</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Section 6: Final Analysis</div>', unsafe_allow_html=True)
 
         final_cls = final_obs["classification"]
         badge_cls = f"badge-{final_cls.lower()}"
